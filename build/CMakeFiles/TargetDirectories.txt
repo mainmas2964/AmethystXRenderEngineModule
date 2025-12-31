@@ -1,0 +1,3 @@
+/home/mainmasgoose/projects/ModuleTemplate/build/CMakeFiles/ExampleModule.dir
+/home/mainmasgoose/projects/ModuleTemplate/build/CMakeFiles/edit_cache.dir
+/home/mainmasgoose/projects/ModuleTemplate/build/CMakeFiles/rebuild_cache.dir

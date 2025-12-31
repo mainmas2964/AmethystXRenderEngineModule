@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/mainmasgoose/projects/ModuleTemplate/build",
+  "command": "/usr/bin/clang++ -DExampleModule_EXPORTS -I/home/mainmasgoose/projects/ModuleTemplate -I/home/mainmasgoose/projects/ModuleTemplate/headers -I/home/mainmasgoose/projects/ModuleTemplate/src -g -std=gnu++23 -fPIC -o CMakeFiles/ExampleModule.dir/src/module.cpp.o -c /home/mainmasgoose/projects/ModuleTemplate/src/module.cpp",
+  "file": "/home/mainmasgoose/projects/ModuleTemplate/src/module.cpp",
+  "output": "CMakeFiles/ExampleModule.dir/src/module.cpp.o"
+}
+]

@@ -1,0 +1,6 @@
+# ninja log v6
+1	7	1765719313954786172	/home/mainmasgoose/projects/ModuleTemplate/build/CMakeFiles/cmake.verify_globs	df508fed513c3121
+0	11	1765719354045559334	/home/mainmasgoose/projects/ModuleTemplate/build/CMakeFiles/cmake.verify_globs	df508fed513c3121
+1	11	1765719360498588864	/home/mainmasgoose/projects/ModuleTemplate/build/CMakeFiles/cmake.verify_globs	df508fed513c3121
+11	746	1765719360508588910	CMakeFiles/ExampleModule.dir/src/module.cpp.o	ae11f9484020b346
+746	793	1765719361244889737	ExampleModule.so	de9855a68cf3c448

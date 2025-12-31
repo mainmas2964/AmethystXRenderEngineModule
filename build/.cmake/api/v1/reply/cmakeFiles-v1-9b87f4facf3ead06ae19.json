@@ -1,0 +1,178 @@
+{
+	"globsDependent" : 
+	[
+		{
+			"expression" : "/home/mainmasgoose/projects/ModuleTemplate/src/*.c",
+			"paths" : [],
+			"recurse" : true
+		},
+		{
+			"expression" : "/home/mainmasgoose/projects/ModuleTemplate/src/*.cc",
+			"paths" : [],
+			"recurse" : true
+		},
+		{
+			"expression" : "/home/mainmasgoose/projects/ModuleTemplate/src/*.cpp",
+			"paths" : 
+			[
+				"/home/mainmasgoose/projects/ModuleTemplate/src/module.cpp"
+			],
+			"recurse" : true
+		},
+		{
+			"expression" : "/home/mainmasgoose/projects/ModuleTemplate/src/*.cxx",
+			"paths" : [],
+			"recurse" : true
+		}
+	],
+	"inputs" : 
+	[
+		{
+			"path" : "CMakeLists.txt"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/3.31.6/CMakeSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Platform/Linux-Initialize.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/3.31.6/CMakeCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/CMakeGenericSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/CMakeInitializeConfigs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Platform/Linux.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Platform/UnixPaths.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/CMakeCXXInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Compiler/Clang-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Compiler/Clang.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Platform/Linux-Clang-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Platform/Linux-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Linker/GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Linker/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/usr/share/cmake/Modules/Platform/Linker/GNU.cmake"
+		}
+	],
+	"kind" : "cmakeFiles",
+	"paths" : 
+	{
+		"build" : "/home/mainmasgoose/projects/ModuleTemplate/build",
+		"source" : "/home/mainmasgoose/projects/ModuleTemplate"
+	},
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 1
+	}
+}
