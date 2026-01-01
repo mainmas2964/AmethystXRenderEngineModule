@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(AmethystXRenderEngineModule LANGUAGES CXX)
+project(AmethystXRenderEngineModule LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -70,20 +70,19 @@ if(USE_GLFW)
         endif()
     endif()
 endif()
-
-# glad integration (optional)
+# glad integration
 if(USE_GLAD)
-    # Expecting glad sources at external/glad (external/glad/src/glad.c and external/glad/include)
     set(GLAD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/external/glad/src/glad.c")
     set(GLAD_INC "${CMAKE_CURRENT_SOURCE_DIR}/external/glad/include")
+    
     if(EXISTS ${GLAD_SRC})
         message(STATUS "Including glad from ${GLAD_SRC}")
-        target_sources(AmethystXRenderEngineModule PRIVATE ${GLAD_SRC})
-        target_include_directories(AmethystXRenderEngineModule PRIVATE ${GLAD_INC})
-        # On Linux, glad may need dl
-        target_link_libraries(AmethystXRenderEngineModule PRIVATE dl)
+        add_library(glad STATIC ${GLAD_SRC})
+        target_include_directories(glad PUBLIC ${GLAD_INC})
+        set_target_properties(glad PROPERTIES POSITION_INDEPENDENT_CODE ON)
+        target_link_libraries(AmethystXRenderEngineModule PRIVATE glad)
     else()
-        message(STATUS "glad not found in external/glad; set USE_GLAD=OFF or add glad sources to external/glad")
+        message(WARNING "glad not found in external/glad!")
     endif()
 endif()
 
