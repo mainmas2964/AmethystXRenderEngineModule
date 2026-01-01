@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 3.5)
 project(ExampleModule LANGUAGES CXX)
 
-# Build a shared library for the example module.
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Options to control produced filenames and Windows exports
 option(REMOVE_LIB_PREFIX_ON_UNIX "Remove the 'lib' prefix on Unix-like systems (produces ExampleModule.so instead of libExampleModule.so)" ON)
 option(WINDOWS_EXPORT_ALL_SYMBOLS_OPTION "When building on Windows, export all symbols automatically (convenient for DLLs)" ON)
+option(USE_GLFW "Link with GLFW and enable example GL demo code" ON)
+option(USE_GLAD "Compile and link glad from external/glad (if present)" ON)
 
-# The module sources: collect everything under src/ so adding/removing files
-# there doesn't require editing this CMakeLists.
+# Collect module sources
 file(GLOB_RECURSE MODULE_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cxx"
@@ -24,39 +24,76 @@ endif()
 
 add_library(ExampleModule SHARED ${MODULE_SOURCES})
 
-# Make sure the module can find FractalCORE.hpp and other headers. Add the
-# repository header folder and src so local includes work.
+# Include paths for project headers
 target_include_directories(ExampleModule PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/headers
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-# By default CMake will produce libExampleModule.so on Unix. Some engines
-# expect the module file to be named without the lib prefix (e.g. "ExampleModule.so").
-# If the option REMOVE_LIB_PREFIX_ON_UNIX is ON, remove the prefix on Unix to match that convention.
+# Optionally remove lib prefix on Unix
 if(UNIX AND REMOVE_LIB_PREFIX_ON_UNIX)
     set_target_properties(ExampleModule PROPERTIES PREFIX "")
 endif()
 
-# Ensure the produced file base name is ExampleModule on all platforms; the
-# loader will append .so/.dll as appropriate for the platform.
 set_target_properties(ExampleModule PROPERTIES OUTPUT_NAME "ExampleModule")
 
-# Optional: export all symbols on Windows to avoid needing an explicit
-# DEF file when building a DLL. Controlled by WINDOWS_EXPORT_ALL_SYMBOLS_OPTION.
 if(WIN32 AND WINDOWS_EXPORT_ALL_SYMBOLS_OPTION)
     set_target_properties(ExampleModule PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
-# Installation (optional): place module into lib or modules folder. Uncomment
-# to enable installation.
-#install(TARGETS ExampleModule LIBRARY DESTINATION lib)
+# Link common system libs
+find_package(Threads REQUIRED)
+target_link_libraries(ExampleModule PRIVATE ${CMAKE_THREAD_LIBS_INIT} dl)
 
-# Usage:
-#   mkdir build && cd build
-#   cmake ..
-#   cmake --build . --config Release
-#
-# On Linux this will produce `ExampleModule.so` (no lib prefix if enabled). On Windows
-# the produced file will be `ExampleModule.dll`.
+# GLFW integration (optional)
+if(USE_GLFW)
+    # Try pkg-config first (works on many Linux/Termux setups)
+    find_package(PkgConfig QUIET)
+    if(PKG_CONFIG_FOUND)
+        pkg_check_modules(GLFW_PKG QUIET glfw3)
+    endif()
+
+    if(GLFW_PKG_FOUND)
+        message(STATUS "Found GLFW via pkg-config")
+        target_include_directories(ExampleModule PRIVATE ${GLFW_PKG_INCLUDE_DIRS})
+        target_link_libraries(ExampleModule PRIVATE ${GLFW_PKG_LIBRARIES})
+        target_compile_options(ExampleModule PRIVATE ${GLFW_PKG_CFLAGS_OTHER})
+    else()
+        # Fallback to CMake package
+        find_package(glfw3 QUIET)
+        if(glfw3_FOUND)
+            message(STATUS "Found GLFW via find_package")
+            target_link_libraries(ExampleModule PRIVATE glfw)
+        else()
+            message(WARNING "GLFW not found. Build will continue but GLFW-dependent code will fail at link time.")
+        endif()
+    endif()
+endif()
+
+# glad integration (optional)
+if(USE_GLAD)
+    # Expecting glad sources at external/glad (external/glad/src/glad.c and external/glad/include)
+    set(GLAD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/external/glad/src/glad.c")
+    set(GLAD_INC "${CMAKE_CURRENT_SOURCE_DIR}/external/glad/include")
+    if(EXISTS ${GLAD_SRC})
+        message(STATUS "Including glad from ${GLAD_SRC}")
+        target_sources(ExampleModule PRIVATE ${GLAD_SRC})
+        target_include_directories(ExampleModule PRIVATE ${GLAD_INC})
+        # On Linux, glad may need dl
+        target_link_libraries(ExampleModule PRIVATE dl)
+    else()
+        message(STATUS "glad not found in external/glad; set USE_GLAD=OFF or add glad sources to external/glad")
+    endif()
+endif()
+
+# Helpful compile flags for Unix (optional)
+if(UNIX)
+    target_compile_options(ExampleModule PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+
+# Installation (optional)
+# install(TARGETS ExampleModule LIBRARY DESTINATION lib)
+
+# Usage instructions
+message(STATUS "To build: mkdir build && cd build && cmake -G Ninja .. && cmake --build .")
