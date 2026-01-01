@@ -1,12 +1,12 @@
-# ModuleTemplate
- Module Template
+# AmethystXRenderEngineModule
+ Render Module
 ## Building
 
-This repository produces a shared module named `ExampleModule`.
+This repository produces a shared module named `AmethystXRenderEngineModule`.
 
-On Linux the module is produced as `ExampleModule.so` (the CMake option
+On Linux the module is produced as `AmethystXRenderEngineModule.so` (the CMake option
 `REMOVE_LIB_PREFIX_ON_UNIX` controls whether the `lib` prefix is removed).
-On Windows the module is produced as `ExampleModule.dll`.
+On Windows the module is produced as `AmethystXRenderEngineModule.dll`.
 
 Recommended Linux build (from project root):
 ```bash

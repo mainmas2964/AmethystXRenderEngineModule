@@ -12,4 +12,4 @@ echo "Building..."
 cmake --build "$BUILD_DIR" --config Release --parallel "$(nproc)"
 
 echo "Build finished. Artifacts:"
-ls -l "$BUILD_DIR"/ExampleModule* "$BUILD_DIR"/*.so 2>/dev/null || true
+ls -l "$BUILD_DIR"/AmethystXRenderEngineModule* "$BUILD_DIR"/*.so 2>/dev/null || true

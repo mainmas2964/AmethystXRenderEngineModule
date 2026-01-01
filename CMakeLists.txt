@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
-project(ExampleModule LANGUAGES CXX)
+project(AmethystXRenderEngineModule LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-option(REMOVE_LIB_PREFIX_ON_UNIX "Remove the 'lib' prefix on Unix-like systems (produces ExampleModule.so instead of libExampleModule.so)" ON)
+option(REMOVE_LIB_PREFIX_ON_UNIX "Remove the 'lib' prefix on Unix-like systems (produces AmethystXRenderEngineModule.so instead of libAmethystXRenderEngineModule.so)" ON)
 option(WINDOWS_EXPORT_ALL_SYMBOLS_OPTION "When building on Windows, export all symbols automatically (convenient for DLLs)" ON)
 option(USE_GLFW "Link with GLFW and enable example GL demo code" ON)
 option(USE_GLAD "Compile and link glad from external/glad (if present)" ON)
@@ -22,10 +22,10 @@ if(NOT MODULE_SOURCES)
     message(FATAL_ERROR "No source files found in ${CMAKE_CURRENT_SOURCE_DIR}/src")
 endif()
 
-add_library(ExampleModule SHARED ${MODULE_SOURCES})
+add_library(AmethystXRenderEngineModule SHARED ${MODULE_SOURCES})
 
 # Include paths for project headers
-target_include_directories(ExampleModule PRIVATE
+target_include_directories(AmethystXRenderEngineModule PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/headers
     ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -33,18 +33,18 @@ target_include_directories(ExampleModule PRIVATE
 
 # Optionally remove lib prefix on Unix
 if(UNIX AND REMOVE_LIB_PREFIX_ON_UNIX)
-    set_target_properties(ExampleModule PROPERTIES PREFIX "")
+    set_target_properties(AmethystXRenderEngineModule PROPERTIES PREFIX "")
 endif()
 
-set_target_properties(ExampleModule PROPERTIES OUTPUT_NAME "ExampleModule")
+set_target_properties(AmethystXRenderEngineModule PROPERTIES OUTPUT_NAME "AmethystXRenderEngineModule")
 
 if(WIN32 AND WINDOWS_EXPORT_ALL_SYMBOLS_OPTION)
-    set_target_properties(ExampleModule PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    set_target_properties(AmethystXRenderEngineModule PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
 # Link common system libs
 find_package(Threads REQUIRED)
-target_link_libraries(ExampleModule PRIVATE ${CMAKE_THREAD_LIBS_INIT} dl)
+target_link_libraries(AmethystXRenderEngineModule PRIVATE ${CMAKE_THREAD_LIBS_INIT} dl)
 
 # GLFW integration (optional)
 if(USE_GLFW)
@@ -56,15 +56,15 @@ if(USE_GLFW)
 
     if(GLFW_PKG_FOUND)
         message(STATUS "Found GLFW via pkg-config")
-        target_include_directories(ExampleModule PRIVATE ${GLFW_PKG_INCLUDE_DIRS})
-        target_link_libraries(ExampleModule PRIVATE ${GLFW_PKG_LIBRARIES})
-        target_compile_options(ExampleModule PRIVATE ${GLFW_PKG_CFLAGS_OTHER})
+        target_include_directories(AmethystXRenderEngineModule PRIVATE ${GLFW_PKG_INCLUDE_DIRS})
+        target_link_libraries(AmethystXRenderEngineModule PRIVATE ${GLFW_PKG_LIBRARIES})
+        target_compile_options(AmethystXRenderEngineModule PRIVATE ${GLFW_PKG_CFLAGS_OTHER})
     else()
         # Fallback to CMake package
         find_package(glfw3 QUIET)
         if(glfw3_FOUND)
             message(STATUS "Found GLFW via find_package")
-            target_link_libraries(ExampleModule PRIVATE glfw)
+            target_link_libraries(AmethystXRenderEngineModule PRIVATE glfw)
         else()
             message(WARNING "GLFW not found. Build will continue but GLFW-dependent code will fail at link time.")
         endif()
@@ -78,10 +78,10 @@ if(USE_GLAD)
     set(GLAD_INC "${CMAKE_CURRENT_SOURCE_DIR}/external/glad/include")
     if(EXISTS ${GLAD_SRC})
         message(STATUS "Including glad from ${GLAD_SRC}")
-        target_sources(ExampleModule PRIVATE ${GLAD_SRC})
-        target_include_directories(ExampleModule PRIVATE ${GLAD_INC})
+        target_sources(AmethystXRenderEngineModule PRIVATE ${GLAD_SRC})
+        target_include_directories(AmethystXRenderEngineModule PRIVATE ${GLAD_INC})
         # On Linux, glad may need dl
-        target_link_libraries(ExampleModule PRIVATE dl)
+        target_link_libraries(AmethystXRenderEngineModule PRIVATE dl)
     else()
         message(STATUS "glad not found in external/glad; set USE_GLAD=OFF or add glad sources to external/glad")
     endif()
@@ -89,11 +89,11 @@ endif()
 
 # Helpful compile flags for Unix (optional)
 if(UNIX)
-    target_compile_options(ExampleModule PRIVATE -Wall -Wextra -Wpedantic)
+    target_compile_options(AmethystXRenderEngineModule PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
 # Installation (optional)
-# install(TARGETS ExampleModule LIBRARY DESTINATION lib)
+# install(TARGETS AmethystXRenderEngineModule LIBRARY DESTINATION lib)
 
 # Usage instructions
 message(STATUS "To build: mkdir build && cd build && cmake -G Ninja .. && cmake --build .")
