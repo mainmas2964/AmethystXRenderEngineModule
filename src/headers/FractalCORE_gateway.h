@@ -5,47 +5,52 @@
 
 // Forward declarations
 class Clock;
-
 struct FractalCORE_Gateway {
     void* api; 
 
     // --- Core Management ---
     void (*stop)(void*);
     float (*getDeltaTime)(void*);
-    Clock& (*getEngineClock)(void*);
+    void* (*getEngineClock)(void*); 
 
     // --- Task System ---
-    void (*enqueueTask)(void*, const Task&);
-    void (*registerIntervalTask)(void*, const TickTask&);
+    void (*enqueueTask)(void*, const void* taskPtr); 
+    void (*registerIntervalTask)(void*, const void* tickTaskPtr);
 
-    // --- ECS: Entities & Components ---
-    Entity (*createEntity)(void*);
+    // --- ECS: Entities and Components ---
+    uint32_t (*createEntity)(void*);
     
-    void (*registerComponent)(void*, const std::string&, size_t, size_t);
-    void (*attachComponent)(void*, Entity, const std::string&, void*);
-    void (*removeComponent)(void*, Entity, const std::string&);
-    void* (*getComponent)(void*, Entity, const std::string&);
-    bool (*hasComponent)(void*, Entity, const std::string&);
-    ComponentData* (*getComponentData)(void*, const std::string&);
+
+    void (*registerComponent)(void*, const char* name, size_t size, size_t capacity);
+    void (*attachComponent)(void*, uint32_t entity, const char* name, void* data);
+    void (*removeComponent)(void*, uint32_t entity, const char* name);
+    void* (*getComponent)(void*, uint32_t entity, const char* name);
+    bool (*hasComponent)(void*, uint32_t entity, const char* name);
+    void* (*getComponentData)(void*, const char* name);
+    
+    void (*registerGroup)(void*, const char** componentNames, size_t count);
 
     // --- ECS: Systems ---
-    // Registers a system. 
-    // Param 3: Raw function pointer taking (dt, userData)
-    // Param 4: User data context (passed back to the function pointer)
-    void (*registerSystem)(void*, const std::string&, void (*)(float, void*), void*);
+    void (*registerSystem)(void*, const char* name, void (*cb)(float, void*), void* userData);
+    void (*registerSystemInLoop)(void*, void* systemDescPtr);
     
-    // Registers the loop configuration (Trigger, Intervals)
-    void (*registerSystemInLoop)(void*, SystemDesc&);
-    
-    // Parallel iteration wrapper
-    // Takes a std::function because ECS::updateParallel requires it
-    void (*updateParallel)(void* api, const std::string& name, void (*func)(Entity, void*, void*), void* userContext, size_t chunkSize);
-    
+    void (*updateParallel)(void* api, const char* name, void (*func)(uint32_t, void*, void*), void* userContext, size_t chunkSize);
+    void (*updateParallelGroup)(void* api, 
+                                const char** components, 
+                                size_t compCount,
+                                void (*func)(size_t, size_t, void*), 
+                                void* userContext, 
+                                size_t chunkSize);
+
     // --- Event Manager ---
-    uint32_t (*registerEvent)(void*, const std::string&);
-    void (*pushEvent)(void*, uint32_t, void*, size_t);
-    void (*emitEvent)(void*, uint32_t, void*, size_t);
-    
-    // Subscribe callback takes (eventID, EventData, userData)
-    void (*subscribe)(void*, uint32_t, void (*)(uint32_t, const EventData&, void*), void*);
+    uint32_t (*registerEvent)(void*, const char* name);
+    void (*pushEvent)(void*, uint32_t id, void* data, size_t size);
+    void (*emitEvent)(void*, uint32_t id, void* data, size_t size);
+    void (*subscribe)(void*, uint32_t id, void (*cb)(uint32_t, const void*, void*), void* user);
+
+    // --- SQLite gateway ---
+    bool (*setSQLString)(void* api, const char* key, const char* value);
+    size_t (*getSQLString)(void* api, const char* key, char* outBuffer, size_t bufferSize);
+    bool (*SQLExist)(void* api, const char* key);
+    bool (*SQLExecute)(void* api, const char* sql);
 };
